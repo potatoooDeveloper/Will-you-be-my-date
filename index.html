@@ -110,10 +110,15 @@
     }
 
     .no-button {
-      color: #8b5267;
-      background: #ffe2eb;
-      z-index: 2;
-    }
+  color: white;
+  background: #b94b75;
+  box-shadow: 0 4px 12px rgba(185, 75, 117, 0.25);
+  z-index: 2;
+}
+
+.no-button:hover {
+  background: #963657;
+}
 
     /* The No button can move anywhere inside the viewport. */
     .no-button.running {
@@ -210,16 +215,13 @@
   <main class="card">
     <!-- FIRST SCREEN -->
     <section id="question-screen">
-      <h1>Would you go on a date with me? 💗</h1>
-      <p class="subtitle">
-        I have a tiny question for my favorite person... 🥹
+        <p class="subtitle">
+        Hi Bebi just a question 🥹
       </p>
+      <h1>Would you go on a date with me? 💗</h1>
+      
 
-      <img
-        class="gif"
-        src="https://media.giphy.com/media/MDJ9IbxxvDUQM/giphy.gif"
-        alt="A cute animated reaction"
-      >
+     <div class="tenor-gif-embed" data-postid="15426956849227450859" data-share-method="host" data-aspect-ratio="1" data-width="100%"><a href="https://tenor.com/view/friday-gif-15426956849227450859">Friday Sticker</a>from <a href="https://tenor.com/search/friday-stickers">Friday Stickers</a></div> <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
 
       <p>So... what do you say? 💌</p>
 
@@ -242,11 +244,7 @@
         You just made me the happiest person ever!! 💕
       </p>
 
-      <img
-        class="gif"
-        src="https://media.giphy.com/media/g9582DNuQppxC/giphy.gif"
-        alt="A happy celebration"
-      >
+      <div class="tenor-gif-embed" data-postid="5869006706266344939" data-share-method="host" data-aspect-ratio="1" data-width="100%"><a href="https://tenor.com/view/robert-bri-cute-hug-gif-5869006706266344939">Robert Bri GIF</a>from <a href="https://tenor.com/search/robert-gifs">Robert GIFs</a></div> <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
 
       <h2>When are you free? 🌷</h2>
       <p>Let's pick a day for our little date! ☕</p>
@@ -279,48 +277,52 @@
 
     let noMoves = 0;
 
-    // Move the No button to a random, visible position.
     function moveNoButton() {
-      if (questionScreen.classList.contains("hidden")) return;
+  if (questionScreen.classList.contains("hidden")) return;
 
-      const margin = 12;
-      const buttonWidth = noButton.offsetWidth;
-      const buttonHeight = noButton.offsetHeight;
+  const margin = 12;
+  const buttonWidth = noButton.offsetWidth;
+  const buttonHeight = noButton.offsetHeight;
 
-      const maxX = Math.max(
-        margin,
-        window.innerWidth - buttonWidth - margin
-      );
+  // Calculate the maximum position without going off-screen.
+  const maxX = Math.max(
+    margin,
+    window.innerWidth - buttonWidth - margin
+  );
 
-      const maxY = Math.max(
-        margin,
-        window.innerHeight - buttonHeight - margin
-      );
+  const maxY = Math.max(
+    margin,
+    window.innerHeight - buttonHeight - margin
+  );
 
-      let x = margin + Math.random() * (maxX - margin);
-      let y = margin + Math.random() * (maxY - margin);
+  const yesRect = yesButton.getBoundingClientRect();
 
-      // Avoid placing the No button directly over the Yes button.
-      const yesRect = yesButton.getBoundingClientRect();
+  let x = margin;
+  let y = margin;
 
-      for (let i = 0; i < 15; i++) {
-        const overlapsYes =
-          x < yesRect.right + 15 &&
-          x + buttonWidth > yesRect.left - 15 &&
-          y < yesRect.bottom + 15 &&
-          y + buttonHeight > yesRect.top - 15;
+  // Try random positions that don't overlap the Yes button.
+  for (let i = 0; i < 40; i++) {
+    x = margin + Math.random() * (maxX - margin);
+    y = margin + Math.random() * (maxY - margin);
 
-        if (!overlapsYes) break;
+    const overlapsYes =
+      x < yesRect.right + 12 &&
+      x + buttonWidth > yesRect.left - 12 &&
+      y < yesRect.bottom + 12 &&
+      y + buttonHeight > yesRect.top - 12;
 
-        x = margin + Math.random() * (maxX - margin);
-        y = margin + Math.random() * (maxY - margin);
-      }
+    if (!overlapsYes) break;
+  }
 
-      noButton.classList.add("running");
-      noButton.style.left = `${x}px`;
-      noButton.style.top = `${y}px`;
-      noMoves++;
-    }
+  noButton.classList.add("running");
+
+  // Keep the entire button inside the viewport.
+  noButton.style.left =
+    `${Math.max(margin, Math.min(x, window.innerWidth - buttonWidth - margin))}px`;
+
+  noButton.style.top =
+    `${Math.max(margin, Math.min(y, window.innerHeight - buttonHeight - margin))}px`;
+}
 
     // On computers, run away when hovered over.
     noButton.addEventListener("pointerenter", (event) => {
@@ -425,6 +427,7 @@
         moveNoButton();
       }
     });
+    
   </script>
 </body>
 </html>
