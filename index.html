@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A Little Question For You 💗</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    :root {
+      --pink: #ff5c93;
+      --dark-pink: #ed3977;
+      --light-pink: #fff0f5;
+      --text: #71364d;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      min-height: 100dvh;
+      display: grid;
+      place-items: center;
+      padding: 24px 16px;
+      overflow-x: hidden;
+      font-family: "Trebuchet MS", Arial, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 10% 20%, #ffe0eb 0 3px, transparent 4px),
+        radial-gradient(circle at 85% 75%, #ffd6e5 0 4px, transparent 5px),
+        linear-gradient(135deg, #fff7fa, #ffe5ee);
+    }
+
+    .card {
+      width: min(100%, 440px);
+      padding: 32px 22px;
+      text-align: center;
+      background: rgba(255, 255, 255, 0.94);
+      border: 2px solid #ffd0e0;
+      border-radius: 28px;
+      box-shadow: 0 18px 55px #d76a8b24;
+      animation: appear 0.65s ease both;
+    }
+
+    h1 {
+      margin: 0 0 12px;
+      color: #e94f86;
+      font-size: clamp(27px, 7vw, 36px);
+      line-height: 1.25;
+    }
+
+    p {
+      line-height: 1.6;
+    }
+
+    .subtitle {
+      margin: 0 0 16px;
+      font-size: 16px;
+    }
+
+    .gif {
+      display: block;
+      width: min(100%, 245px);
+      height: 190px;
+      margin: 10px auto 20px;
+      object-fit: contain;
+      border-radius: 16px;
+    }
+
+    .buttons {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 18px;
+      min-height: 62px;
+      margin-top: 12px;
+    }
+
+    button {
+      min-width: 112px;
+      padding: 14px 24px;
+      border: 0;
+      border-radius: 999px;
+      font: inherit;
+      font-size: 17px;
+      font-weight: bold;
+      cursor: pointer;
+      touch-action: manipulation;
+      transition: transform 0.18s, background 0.18s;
+    }
+
+    button:focus-visible,
+    input:focus-visible {
+      outline: 3px solid #b84270;
+      outline-offset: 4px;
+    }
+
+    .yes-button {
+      color: white;
+      background: var(--pink);
+      box-shadow: 0 5px 14px #ff5c9340;
+    }
+
+    .yes-button:hover {
+      background: var(--dark-pink);
+      transform: scale(1.06);
+    }
+
+    .no-button {
+      color: #8b5267;
+      background: #ffe2eb;
+      z-index: 2;
+    }
+
+    /* The No button can move anywhere inside the viewport. */
+    .no-button.running {
+      position: fixed;
+      z-index: 10;
+      transition: left 0.16s ease, top 0.16s ease;
+    }
+
+    .hint {
+      margin: 18px 0 0;
+      color: #ad7890;
+      font-size: 12px;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .date-label {
+      display: block;
+      margin: 20px 0 8px;
+      font-weight: bold;
+      text-align: left;
+    }
+
+    input[type="date"] {
+      width: 100%;
+      padding: 13px;
+      border: 2px solid #ffc4d9;
+      border-radius: 12px;
+      background: white;
+      color: var(--text);
+      font: inherit;
+    }
+
+    .email-button {
+      width: 100%;
+      margin-top: 14px;
+      color: white;
+      background: #e94f86;
+    }
+
+    .email-button:hover {
+      background: #d93b74;
+    }
+
+    .small-note {
+      margin: 12px 0 0;
+      font-size: 12px;
+      color: #9e7384;
+    }
+
+    .heart {
+      position: fixed;
+      bottom: -30px;
+      z-index: 0;
+      pointer-events: none;
+      animation: float-up 4s linear forwards;
+    }
+
+    .card {
+      position: relative;
+      z-index: 1;
+    }
+
+    @keyframes appear {
+      from { opacity: 0; transform: translateY(14px) scale(.97); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    @keyframes float-up {
+      to {
+        transform: translateY(-110vh) rotate(25deg);
+        opacity: 0;
+      }
+    }
+
+    @media (max-width: 380px) {
+      .card { padding: 27px 16px; }
+      .buttons { gap: 10px; }
+      button { min-width: 100px; padding: 13px 18px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="card">
+    <!-- FIRST SCREEN -->
+    <section id="question-screen">
+      <h1>Would you go on a date with me? 💗</h1>
+      <p class="subtitle">
+        I have a tiny question for my favorite person... 🥹
+      </p>
+
+      <img
+        class="gif"
+        src="https://media.giphy.com/media/MDJ9IbxxvDUQM/giphy.gif"
+        alt="A cute animated reaction"
+      >
+
+      <p>So... what do you say? 💌</p>
+
+      <div class="buttons" id="buttons-area">
+        <button class="yes-button" id="yes-button">
+          Yes! 💖
+        </button>
+        <button class="no-button" id="no-button">
+          No 🙈
+        </button>
+      </div>
+
+      <p class="hint">Psst... there's only one correct answer. 😚</p>
+    </section>
+
+    <!-- SECOND SCREEN -->
+    <section id="success-screen" class="hidden">
+      <h1>YAYYYYY!! 🥹💖</h1>
+      <p class="subtitle">
+        You just made me the happiest person ever!! 💕
+      </p>
+
+      <img
+        class="gif"
+        src="https://media.giphy.com/media/g9582DNuQppxC/giphy.gif"
+        alt="A happy celebration"
+      >
+
+      <h2>When are you free? 🌷</h2>
+      <p>Let's pick a day for our little date! ☕</p>
+
+      <label class="date-label" for="date-choice">
+        Our date could be on...
+      </label>
+      <input type="date" id="date-choice">
+
+      <button class="email-button" id="send-date">
+        Send my date idea 💌
+      </button>
+
+      <p class="small-note">
+        You can also just message me your preferred day. 💗
+      </p>
+    </section>
+  </main>
+
+  <script>
+    // CHANGE THIS to your own email address.
+    const YOUR_EMAIL = "lingualabyrinth.care@gmail.com";
+
+    const questionScreen = document.getElementById("question-screen");
+    const successScreen = document.getElementById("success-screen");
+    const yesButton = document.getElementById("yes-button");
+    const noButton = document.getElementById("no-button");
+    const dateChoice = document.getElementById("date-choice");
+    const sendDate = document.getElementById("send-date");
+
+    let noMoves = 0;
+
+    // Move the No button to a random, visible position.
+    function moveNoButton() {
+      if (questionScreen.classList.contains("hidden")) return;
+
+      const margin = 12;
+      const buttonWidth = noButton.offsetWidth;
+      const buttonHeight = noButton.offsetHeight;
+
+      const maxX = Math.max(
+        margin,
+        window.innerWidth - buttonWidth - margin
+      );
+
+      const maxY = Math.max(
+        margin,
+        window.innerHeight - buttonHeight - margin
+      );
+
+      let x = margin + Math.random() * (maxX - margin);
+      let y = margin + Math.random() * (maxY - margin);
+
+      // Avoid placing the No button directly over the Yes button.
+      const yesRect = yesButton.getBoundingClientRect();
+
+      for (let i = 0; i < 15; i++) {
+        const overlapsYes =
+          x < yesRect.right + 15 &&
+          x + buttonWidth > yesRect.left - 15 &&
+          y < yesRect.bottom + 15 &&
+          y + buttonHeight > yesRect.top - 15;
+
+        if (!overlapsYes) break;
+
+        x = margin + Math.random() * (maxX - margin);
+        y = margin + Math.random() * (maxY - margin);
+      }
+
+      noButton.classList.add("running");
+      noButton.style.left = `${x}px`;
+      noButton.style.top = `${y}px`;
+      noMoves++;
+    }
+
+    // On computers, run away when hovered over.
+    noButton.addEventListener("pointerenter", (event) => {
+      if (event.pointerType === "mouse") {
+        moveNoButton();
+      }
+    });
+
+    // Also move when tapped or clicked on a phone.
+    noButton.addEventListener("click", (event) => {
+      event.preventDefault();
+      moveNoButton();
+    });
+
+    // A little extra teasing after a few escapes.
+    noButton.addEventListener("click", () => {
+      if (noMoves >= 5) {
+        noButton.textContent = "Still no? 🙃";
+      }
+    });
+
+    // Celebrate when Yes is clicked.
+    yesButton.addEventListener("click", () => {
+      questionScreen.classList.add("hidden");
+      successScreen.classList.remove("hidden");
+
+      noButton.classList.remove("running");
+      noButton.style.left = "";
+      noButton.style.top = "";
+
+      document.body.style.background =
+        "linear-gradient(135deg, #ffe0ed, #fff5f8)";
+
+      launchHearts();
+    });
+
+    // Send the selected date through the visitor's email app.
+    sendDate.addEventListener("click", () => {
+      if (YOUR_EMAIL === "yourname@example.com") {
+        alert("First, change YOUR_EMAIL in the code to your email address!");
+        return;
+      }
+
+      if (!dateChoice.value) {
+        alert("Pick a date first, cutie! 💗");
+        dateChoice.focus();
+        return;
+      }
+
+      const selectedDate = new Date(
+        dateChoice.value + "T12:00:00"
+      );
+
+      const readableDate = selectedDate.toLocaleDateString(
+        undefined,
+        {
+          weekday: "long",
+          year: "numeric",
+          month: "long",
+          day: "numeric"
+        }
+      );
+
+      const subject = encodeURIComponent(
+        "They said YES! 💖 Date invitation"
+      );
+
+      const body = encodeURIComponent(
+        "OMG, I said YES! 💗\n\n" +
+        "My suggested date is: " + readableDate + "\n\n" +
+        "Let's plan our date! 🥹💕"
+      );
+
+      window.location.href =
+        `mailto:${YOUR_EMAIL}?subject=${subject}&body=${body}`;
+    });
+
+    // Floating hearts for the celebration screen.
+    function launchHearts() {
+      const emojis = ["💗", "💕", "💖", "💘", "🌸"];
+
+      for (let i = 0; i < 28; i++) {
+        setTimeout(() => {
+          const heart = document.createElement("span");
+          heart.className = "heart";
+          heart.textContent =
+            emojis[Math.floor(Math.random() * emojis.length)];
+
+          heart.style.left = Math.random() * 100 + "vw";
+          heart.style.fontSize = (18 + Math.random() * 22) + "px";
+          heart.style.animationDuration = (3 + Math.random() * 3) + "s";
+
+          document.body.appendChild(heart);
+          heart.addEventListener("animationend", () => heart.remove());
+        }, i * 130);
+      }
+    }
+
+    // Keep the running button inside the screen after resizing.
+    window.addEventListener("resize", () => {
+      if (noButton.classList.contains("running")) {
+        moveNoButton();
+      }
+    });
+  </script>
+</body>
+</html>
